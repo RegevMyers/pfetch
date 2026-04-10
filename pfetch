@@ -135,7 +135,6 @@ log() {
 
     # Print the info name and color the text.
     esc_p SGR "3${PF_COL1-4}";
-    esc_p SGR 1
     printf '%s' "$name"
     esc_p SGR 0
 
@@ -179,15 +178,13 @@ get_title() {
 
     # Add escape sequences for coloring to user and host name. As we embed
     # them directly in the arguments passed to log(), we cannot use esc_p().
-    esc SGR 1
-    user=$e$user
+    esc SGR 0
     esc SGR "3${PF_COL3:-1}"
     user=$e$user
-    esc SGR 1
+    esc SGR 2
     user=$user$e
-    esc SGR 1
-    hostname=$e$hostname
-    esc SGR "3${PF_COL3:-1}"
+    esc SGR 3
+    user=$user$e
     hostname=$e$hostname
 
     log "${user}@${hostname}" " " " " >&6
@@ -1833,7 +1830,6 @@ get_ascii() {
     # Print the ascii art and position the cursor back where we
     # started prior to printing it.
     {
-        esc_p SGR 1
         printf '%s' "$ascii"
         esc_p SGR 0
         esc_p CUU "$ascii_height"
